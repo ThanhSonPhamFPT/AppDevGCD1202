@@ -4,20 +4,17 @@
 	<div class="border p-3 mt-4">
 		<div class="mb-3 row">
 			<label asp-for="Name"></label>
-			<input asp-for="Name" />
-			<span asp-validation-for="Name" class="text-danger"></span>
+			<input disabled asp-for="Name" />
 		</div>
 		<div class="mb-3 row">
 			<label asp-for="Description"></label>
-			<input asp-for="Description" />
-			<span asp-validation-for="Description" class="text-danger"></span>
+			<input disabled asp-for="Description" />
 		</div>
 		<div class="mb-3 row">
 			<label asp-for="DisplayPriority"></label>
-			<input asp-for="DisplayPriority" />
-			<span asp-validation-for="DisplayPriority" class="text-danger"></span>
+			<input disabled asp-for="DisplayPriority" />
 		</div>
-		<button type="submit" class="btn btn-primary">Edit</button>
+		<button type="submit" class="btn btn-danger">Delete</button>
 		<a asp-controller="Category" asp-action="Index" class="btn btn-primary">Return</a>
 	</div>
 </form>
