@@ -31,6 +31,7 @@ namespace ProjectWeb.Controllers
 			{
 				_dbContext.Categories.Add(category);
 				_dbContext.SaveChanges();
+				TempData["success"] = "Category is added succesfully";
 				return RedirectToAction("Index");
 			}
 			return View();
@@ -51,8 +52,10 @@ namespace ProjectWeb.Controllers
 			{
 				_dbContext.Categories.Update(category);
 				_dbContext.SaveChanges();
+				TempData["success"] = "Category is updated succesfully";
 				return RedirectToAction("Index");
 			}
+			TempData["failed"] = "Category can not be updated";
 			return View();
 		}
 		public IActionResult Delete(int id)
@@ -69,6 +72,7 @@ namespace ProjectWeb.Controllers
 		{
 				_dbContext.Categories.Remove(category);
 				_dbContext.SaveChanges();
+				TempData["success"] = "Category is deleted succesfully";
 				return RedirectToAction("Index");
 
 		}
