@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectWeb.Data;
 
@@ -10,9 +11,11 @@ using ProjectWeb.Data;
 namespace ProjectWeb.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241111030957_CreateBookTable")]
+    partial class CreateBookTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,53 +58,6 @@ namespace ProjectWeb.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Books");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Author = "Greenwich",
-                            CategoryId = 1,
-                            Description = "Basic C",
-                            Price = 100.0,
-                            Title = "C Programming"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Author = "Who knows",
-                            CategoryId = 1,
-                            Description = "ok",
-                            Price = 300.0,
-                            Title = "Robinhood"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Author = "FPT",
-                            CategoryId = 3,
-                            Description = "Hard",
-                            Price = 200.0,
-                            Title = "Data Structures"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Author = "StudyGuys",
-                            CategoryId = 3,
-                            Description = "Ok",
-                            Price = 200.0,
-                            Title = ".NET advanced"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Author = "Greenwich",
-                            CategoryId = 2,
-                            Description = "You have to learn it",
-                            Price = 100.0,
-                            Title = "Application Development"
-                        });
                 });
 
             modelBuilder.Entity("ProjectWeb.Models.Category", b =>

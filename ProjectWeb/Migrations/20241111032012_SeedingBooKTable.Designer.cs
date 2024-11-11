@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectWeb.Data;
 
@@ -10,9 +11,11 @@ using ProjectWeb.Data;
 namespace ProjectWeb.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241111032012_SeedingBooKTable")]
+    partial class SeedingBooKTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,7 +66,7 @@ namespace ProjectWeb.Migrations
                             Author = "Greenwich",
                             CategoryId = 1,
                             Description = "Basic C",
-                            Price = 100.0,
+                            Price = 0.0,
                             Title = "C Programming"
                         },
                         new
@@ -72,7 +75,7 @@ namespace ProjectWeb.Migrations
                             Author = "Who knows",
                             CategoryId = 1,
                             Description = "ok",
-                            Price = 300.0,
+                            Price = 0.0,
                             Title = "Robinhood"
                         },
                         new
@@ -81,7 +84,7 @@ namespace ProjectWeb.Migrations
                             Author = "FPT",
                             CategoryId = 3,
                             Description = "Hard",
-                            Price = 200.0,
+                            Price = 0.0,
                             Title = "Data Structures"
                         },
                         new
@@ -90,7 +93,7 @@ namespace ProjectWeb.Migrations
                             Author = "StudyGuys",
                             CategoryId = 3,
                             Description = "Ok",
-                            Price = 200.0,
+                            Price = 0.0,
                             Title = ".NET advanced"
                         },
                         new
@@ -99,7 +102,7 @@ namespace ProjectWeb.Migrations
                             Author = "Greenwich",
                             CategoryId = 2,
                             Description = "You have to learn it",
-                            Price = 100.0,
+                            Price = 0.0,
                             Title = "Application Development"
                         });
                 });
