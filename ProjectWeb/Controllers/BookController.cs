@@ -80,7 +80,20 @@ namespace ProjectWeb.Controllers
 				return RedirectToAction("Index");
 			}
 			TempData["failed"] = "Book can not be updated";
-			return View();
+			BookVM bookVM = new BookVM()
+			{
+				Categories = _dbContext.Categories.Select(c => new SelectListItem()
+				{	
+					Text = c.Name,
+					Value = c.Id.ToString()
+				}),
+				Book = _dbContext.Books.FirstOrDefault(c => c.Id == Book.Id)
+			};
+			if (bookVM.Book == null)
+			{
+				return NotFound();
+			}
+			return View(bookVM);
 		}
 		public IActionResult Delete(int id)
 		{
