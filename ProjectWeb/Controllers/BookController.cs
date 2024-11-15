@@ -9,9 +9,11 @@ namespace ProjectWeb.Controllers
 	public class BookController : Controller
 	{
 		private readonly ApplicationDBContext _dbContext;
-		public BookController(ApplicationDBContext dbContext)
+		private readonly IWebHostEnvironment _webHostEnvironment;
+		public BookController(ApplicationDBContext dbContext, IWebHostEnvironment webHostEnvironment)
 		{
 			_dbContext = dbContext;
+			_webHostEnvironment = webHostEnvironment;
 		}
 		public IActionResult Index()
 		{
@@ -32,10 +34,21 @@ namespace ProjectWeb.Controllers
 			return View(bookVM);
 		}
 		[HttpPost]
-		public IActionResult Add(Book Book)
+		public IActionResult Add(Book Book, IFormFile? file)
 		{
 			if (ModelState.IsValid)
 			{
+				string wwwRootpath = _webHostEnvironment.WebRootPath;
+				if (file != null)
+				{
+					string fileName= Guid.NewGuid().ToString()+Path.GetExtension(file.FileName);
+					string bookPath = Path.Combine(wwwRootpath, @"image\books");
+					using (var fileStream = new FileStream(Path.Combine(bookPath, fileName), FileMode.Create))
+					{
+						file.CopyTo(fileStream);
+					}
+					Book.ImageUrl = @"\image\books\" + fileName;
+				}
 				_dbContext.Books.Add(Book);
 				_dbContext.SaveChanges();
 				TempData["success"] = "Book is added succesfully";
@@ -70,10 +83,29 @@ namespace ProjectWeb.Controllers
 			return View(bookVM);
 		}
 		[HttpPost]
-		public IActionResult Edit(Book Book)
+		public IActionResult Edit(Book Book,IFormFile? file)
 		{
 			if (ModelState.IsValid)
 			{
+				string wwwRootpath = _webHostEnvironment.WebRootPath;
+				if (file != null)
+				{
+					string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+					string bookPath = Path.Combine(wwwRootpath, @"image\books");
+					if (!string.IsNullOrEmpty(Book.ImageUrl))
+					{
+						var oldImagePath = Path.Combine(wwwRootpath, Book.ImageUrl.TrimStart('\\'));
+						if (System.IO.File.Exists(oldImagePath))
+						{
+							System.IO.File.Delete(oldImagePath);
+						}
+					}
+					using (var fileStream = new FileStream(Path.Combine(bookPath, fileName), FileMode.Create))
+					{
+						file.CopyTo(fileStream);
+					}
+					Book.ImageUrl = @"\image\books\" + fileName;
+				}
 				_dbContext.Books.Update(Book);
 				_dbContext.SaveChanges();
 				TempData["success"] = "Book is updated succesfully";
