@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectWeb.Data;
 using ProjectWeb.Models;
 
@@ -13,7 +14,7 @@ namespace ProjectWeb.Controllers
 		}
 		public IActionResult Index()
 		{
-			List<Book> listBook = _dbContext.Books.ToList();
+			List<Book> listBook = _dbContext.Books.Include("Category").ToList();
 			return View(listBook);
 		}
 		public IActionResult Add()
