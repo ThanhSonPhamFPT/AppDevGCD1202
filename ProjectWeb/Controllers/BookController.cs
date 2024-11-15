@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectWeb.Data;
 using ProjectWeb.Models;
@@ -19,7 +20,16 @@ namespace ProjectWeb.Controllers
 		}
 		public IActionResult Add()
 		{
-			return View();
+			BookVM bookVM = new BookVM()
+			{
+				Categories = _dbContext.Categories.Select(c => new SelectListItem()
+				{
+					Text = c.Name,
+					Value = c.Id.ToString()
+				}),
+				Book = new Book()
+			};
+			return View(bookVM);
 		}
 		[HttpPost]
 		public IActionResult Add(Book Book)
@@ -31,16 +41,33 @@ namespace ProjectWeb.Controllers
 				TempData["success"] = "Book is added succesfully";
 				return RedirectToAction("Index");
 			}
-			return View();
+			BookVM bookVM = new BookVM()
+			{
+				Categories = _dbContext.Categories.Select(c => new SelectListItem()
+				{
+					Text = c.Name,
+					Value = c.Id.ToString()
+				}),
+				Book = new Book()
+			};
+			return View(bookVM);
 		}
 		public IActionResult Edit(int id)
 		{
-			Book? Book = _dbContext.Books.FirstOrDefault(c => c.Id == id);
-			if (Book == null)
+			BookVM bookVM = new BookVM()
+			{
+				Categories = _dbContext.Categories.Select(c => new SelectListItem()
+				{
+					Text = c.Name,
+					Value = c.Id.ToString()
+				}),
+				Book = _dbContext.Books.FirstOrDefault(c => c.Id == id)
+			};
+			if (bookVM.Book == null)
 			{
 				return NotFound();
 			}
-			return View(Book);
+			return View(bookVM);
 		}
 		[HttpPost]
 		public IActionResult Edit(Book Book)
