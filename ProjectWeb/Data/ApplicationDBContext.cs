@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ProjectWeb.Models;
 
 namespace ProjectWeb.Data
 {
-	public class ApplicationDBContext:DbContext
+	public class ApplicationDBContext:IdentityDbContext
 	{
 		public DbSet<Category> Categories { get; set; }
 		public DbSet<Book> Books { get; set; }

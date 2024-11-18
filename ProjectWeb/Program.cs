@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ProjectWeb.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace ProjectWeb
 {
@@ -11,7 +12,10 @@ namespace ProjectWeb
 
 			// Add services to the container.
 			builder.Services.AddControllersWithViews();
+			builder.Services.AddRazorPages();
 			builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection")));
+
+   builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDBContext>();
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
@@ -24,7 +28,7 @@ namespace ProjectWeb
 
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
-
+			app.MapRazorPages();
 			app.UseRouting();
 
 			app.UseAuthorization();
