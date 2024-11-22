@@ -1,17 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProjectWeb.Data;
 using ProjectWeb.Models;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace ProjectWeb.Areas.Customer.Controllers
 {
 	[Area("Customer")]
 	public class HomeController : Controller
     {
+        private readonly ApplicationDBContext _dbContext;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,ApplicationDBContext dBContext)
         {
             _logger = logger;
+            _dbContext = dBContext;
         }
 
         public IActionResult Index()
@@ -21,7 +25,10 @@ namespace ProjectWeb.Areas.Customer.Controllers
 
         public IActionResult Privacy()
         {
-            return View();
+            var claimIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            ApplicationUser user = _dbContext.ApplicationUsers.Find(userId);
+            return View(user);
         }
 
         public IActionResult About()
