@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProjectWeb.Data;
 using ProjectWeb.Models;
 
@@ -17,11 +18,13 @@ namespace ProjectWeb.Areas.Admin.Controllers
             List<Category> listCategory = _dbContext.Categories.ToList();
             return View(listCategory);
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Add()
         {
             return View();
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Add(Category category)
         {
             if (category.Name.Equals(category.Description))
@@ -37,6 +40,7 @@ namespace ProjectWeb.Areas.Admin.Controllers
             }
             return View();
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             Category? category = _dbContext.Categories.FirstOrDefault(c => c.Id == id);
@@ -47,6 +51,7 @@ namespace ProjectWeb.Areas.Admin.Controllers
             return View(category);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(Category category)
         {
             if (ModelState.IsValid)
@@ -59,6 +64,7 @@ namespace ProjectWeb.Areas.Admin.Controllers
             TempData["failed"] = "Category can not be updated";
             return View();
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             Category? category = _dbContext.Categories.FirstOrDefault(c => c.Id == id);
@@ -69,6 +75,7 @@ namespace ProjectWeb.Areas.Admin.Controllers
             return View(category);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(Category category)
         {
             _dbContext.Categories.Remove(category);

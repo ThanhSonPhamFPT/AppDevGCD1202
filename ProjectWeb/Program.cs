@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using ProjectWeb.Data;
 using Microsoft.AspNetCore.Identity;
+using ProjectWeb.Utility;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace ProjectWeb
 {
@@ -14,8 +16,14 @@ namespace ProjectWeb
 			builder.Services.AddControllersWithViews();
 			builder.Services.AddRazorPages();
 			builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection")));
-
-   builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDBContext>();
+            builder.Services.ConfigureApplicationCookie(option =>
+            {
+                option.LoginPath = $"/Identity/Account/Login";
+                option.LogoutPath = $"/Identity/Account/Logout";
+                option.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
+            builder.Services.AddIdentity<IdentityUser,IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ApplicationDBContext>().AddDefaultTokenProviders();
+            builder.Services.AddScoped<IEmailSender, EmailSender>();
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
